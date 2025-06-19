@@ -45,7 +45,14 @@ def geocode_ort(ort, buffer):
     if not location is None:
         # print("osm")
         point = Point(location.longitude, location.latitude)
-        tags = {"building": True, "highway": True, "railway": True, "leisure": True, "amenity": "hospital", "landuse": "cemetery", "landuse": "forest"}
+        tags = {
+            "building": True,
+            "highway": True,
+            "railway": True,
+            "leisure": True,
+            "amenity": "hospital",
+            "landuse": ["cemetery", "forest"]
+        }
         gdf_buildings = ox.features_from_point((location.latitude, location.longitude), tags=tags, dist=100)
         polygon = gdf_buildings[gdf_buildings.geometry.contains(point)]
         if polygon.empty:
@@ -94,9 +101,9 @@ def process_xml_content(xml_content):
     if title == "Ohne Titel":
         return None
     
-    innen_elem = root.findall(".//lido:subjectSet/lido:subject[lido:type='keyword]/lido:subjectConcept/lido:term", ns)
+    innen_elem = root.findall(".//lido:subjectSet/lido:subject[lido:type='keyword']/lido:subjectConcept/lido:term", ns)
     innen = [elem.text.strip() for elem in innen_elem if elem is not None and elem.text]
-    if innen == "Bibliothek" or innen == "Innenraum":
+    if "Bibliothek" in innen or "Innenraum" in innen:
         return None
 
     id_elem = root.find(".//lido:lidoRecID", ns)
