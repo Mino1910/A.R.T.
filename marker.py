@@ -103,7 +103,7 @@ def process_xml_content(xml_content):
     
     innen_elem = root.findall(".//lido:subjectSet/lido:subject[lido:type='keyword']/lido:subjectConcept/lido:term", ns)
     innen = [elem.text.strip() for elem in innen_elem if elem is not None and elem.text]
-    if "Bibliothek" in innen or "Innenraum" in innen:
+    if "Bibliothek" in innen or "Innenraum" in innen or "Gruppe" in innen:
         return None
 
     id_elem = root.find(".//lido:lidoRecID", ns)
