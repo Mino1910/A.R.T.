@@ -91,6 +91,13 @@ def process_xml_content(xml_content):
 
     title_elem = root.find(".//lido:titleSet/lido:appellationValue", ns)
     title = title_elem.text.strip() if title_elem is not None else "Ohne Titel"
+    if title == "Ohne Titel":
+        return None
+    
+    innen_elem = root.findall(".//lido:subjectSet/lido:subject[lido:type='keyword]/lido:subjectConcept/lido:term", ns)
+    innen = [elem.text.strip() for elem in innen_elem if elem is not None and elem.text]
+    if innen == "Bibliothek" or innen == "Innenraum":
+        return None
 
     id_elem = root.find(".//lido:lidoRecID", ns)
     id = id_elem.text.strip() if id_elem is not None else "Unbekannt"
