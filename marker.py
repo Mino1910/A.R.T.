@@ -1,7 +1,7 @@
-import os
+# import os
 from geopy.geocoders import Nominatim
-from geopy.exc import GeocoderTimedOut
-from geopy.distance import geodesic
+# from geopy.exc import GeocoderTimedOut
+# from geopy.distance import geodesic
 import time
 import xml.etree.ElementTree as ET
 import json
@@ -10,7 +10,7 @@ import certifi
 import osmnx as ox
 import geopandas as gpd
 from shapely.geometry import Point
-import pandas as pd
+# import pandas as pd
 import xml.etree.ElementTree as ET
 
 start_time = time.time()
@@ -101,7 +101,7 @@ def process_xml_content(xml_content):
     if title == "Ohne Titel":
         return None
     
-    innen_elem = root.findall(".//lido:subjectSet/lido:subject[lido:type='keyword']/lido:subjectConcept/lido:term", ns)
+    innen_elem = root.findall(".//lido:subjectSet/lido:subject[@lido:type='keyword']/lido:subjectConcept/lido:term", ns)
     innen = [elem.text.strip() for elem in innen_elem if elem is not None and elem.text]
     if any(keyword in innen for keyword in ["Bibliothek", "Innenraum", "Gruppe", "Reklame", "Werbung", "Propaganda"]):
         return None
@@ -164,7 +164,7 @@ def process_xml_content(xml_content):
 
         
 # IDs der Objekte
-# nummern = [8316]
+# nummern = [6148]
 # nummern = [1782,470,5155,7228,7295,1299,1758,2517,3082,10,7170,708,623,5509,7218,7651,1381,7387,2126,7221,6230,7060,7514,8454,6761]
 # gams_ids = [f"gm.{num}" for num in nummern]
 num_max = 8820
